@@ -1,0 +1,22 @@
+Stop snort detecting local traffic
+
+I use the rather excellent and Open Source snort to help monitor and protect my network. However, it was causing muchos havoc with my VNC, SSH and samba connections. I found out this was all down to (as is sadly normal for most opensource projects) confusion related to the configuration.
+
+
+
+In the snort.conf file, you are meant to set you home network (the place you are protecting, but don’t want to detect), using
+
+HOME_NET XXX.XXX.X.XXX
+And then your external network (the place where attacks might come from and do want to detect) using
+
+EXTERNAL_NET XXX.XXX.X.XXX
+Now, the method the configuration and snort documentation tells you to use is, to basically tell snort that anything that isn’t in your home network is in your external nework, so
+
+EXTERNAL_NET !HOME_NETWORK
+The exclamation basically meaning NOT. However, if you put an IP address string as your home network, for example (as is suggested in the configuration)
+
+HOME_NET 192.168.1.1/24
+for some reason, using !HOME_NETWORK for your external network doesn’t work and snort will happily go and detect all traffic coming from your local network…GRR. Luckily, after some Googling I came across this message and found that the way to get EXTERNAL_NETWORK to work correctly was to use
+
+EXTERNAL_NET [!192.168.1./24]
+Finally, snort no longer goes ape about my local traffic and now only finds the retarded script kiddies from Russia and China and the Netherlands (since that is where most of the attacks I get come from) and blocks them. Thanks mailing list, no thanks snort.conf….

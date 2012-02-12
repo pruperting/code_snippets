@@ -1,0 +1,37 @@
+# This is a repo for all my random code snippets.
+
+# Most of it is only useful to me, but if it is useful to me, it might be to others.
+
+# This file will list all the code snippets and give a brief overview of they do.
+
+simplersync.sh - a very simple rsync backup script that emails the results
+
+ffmpeg-progress.sh - a second attempt at an ffmpeg progress script, to get an ETA for a trasncode job
+
+xbmc_maverick_revo.sh - a script to install xbmc on Ubunut maverick, designed for the Revo 3610
+
+ffmpeg_mic_stream.sh - use ffmpeg to stream a PC's mic to the network 
+
+ffmpeg_audio_stream.sh - use to open the stream created by ffmpeg_mic_stream.sh
+
+forecast.py - get the weather forecast via Android SL4A
+
+say_forecast.py - say the forecast retrieved by forecast.py
+
+bash_progress.sh - monitor the progress of a bash script via bash
+
+mythtv_remodel.sh - rename, move then delete mythtv recordings - for mythtv 0.20
+
+snort.txt - various snort tricks
+
+mediaportal_comskip.bat - windows batch script to comskip various recordings from mediaportal
+
+mediaportal_trans.sh - ubuntu script to transcode mediaportal recordings
+
+mkv_merge.sh - merge mkv files
+
+m2ts_trans.sh - transcode m2ts files produced by Sony's Playstation 3 PlayTV program
+
+file_name_conversion.txt - move between various file names in batch and bash scripts
+
+ubuntu_tricks.txt - various ubuntu tips

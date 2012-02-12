@@ -1,0 +1,203 @@
+apt-file search mymissingfile.so 
+
+########################
+
+Setting up virtual hosts with Apache
+
+Thought I should post about setting up virtual hosts in Apache, since this was one of the first things I had to do. I got all this info from this site, which was incredibly useful. For all the following instructions, when you see these instructions:
+
+enter some/text/here
+You need to enter this text exactly as you see it in your terminal, which can be found at Applications>Accessories>Terminal
+
+First, you need to set up your folders where the sites are gonna be stored:
+
+mkdir /home/www/www.example.com
+mkdir /home/www/www.example.net
+Then you need to tell Apache that you are gonna use virtual hosts. Create a file using:
+
+sudo touch /etc/apache2/conf.d/virtual.conf
+
+You need to add the following content, use:
+
+sudo gedit /etc/apache2/conf.d/virtual.conf
+
+and enter the following:
+
+#
+#  We're running multiple virtual hosts.
+#
+NameVirtualHost *
+Now, you have to create an entry in both the sites-enabled and sites-available directories in /etc/apache2. So, first create the following file:
+
+sudo touch /etc/apache2/sites-available/www.example.com
+
+and enter the following by using:
+
+sudo gedit /etc/apache2/sites-available/www.example.com
+
+and enter:
+
+#
+#  Example.com (/etc/apache2/sites-available/www.example.com)
+#
+<VirtualHost *>
+        ServerAdmin webmaster@example.com
+        ServerName  www.example.com
+        ServerAlias example.com
+
+        # Indexes + Directory Root.
+        DirectoryIndex index.html
+        DocumentRoot /home/www/www.example.com/htdocs/
+
+        # CGI Directory
+        ScriptAlias /cgi-bin/ /home/www/www.example.com/cgi-bin/
+        <Location /cgi-bin>
+                Options +ExecCGI
+        </Location>
+
+        # Logfiles
+        ErrorLog  /home/www/www.example.com/logs/error.log
+        CustomLog /home/www/www.example.com/logs/access.log combined
+</VirtualHost>
+Next, do the same for your second site, so create a file using:
+
+sudo touch /etc/apache2/sites-available/www.example.net
+
+and enter the following by using:
+
+sudo gedit /etc/apache2/sites-available/www.example.net
+
+and enter:
+
+#
+#  Example.net (/etc/apache2/sites-available/www.example.net)
+#
+<VirtualHost *>
+        ServerAdmin webmaster@example.net
+        ServerName  www.example.net
+        ServerAlias example.net
+
+        # Indexes + Directory Root.
+        DirectoryIndex index.html
+        DocumentRoot /home/www/www.example.net/htdocs/
+
+        # CGI Directory
+        ScriptAlias /cgi-bin/ /home/www/www.example.net/cgi-bin/
+        <Location /cgi-bin>
+                Options +ExecCGI
+        </Location>
+
+        # Logfiles
+        ErrorLog  /home/www/www.example.net/logs/error.log
+        CustomLog /home/www/www.example.net/logs/access.log combined
+</VirtualHost>
+Finally, you need to create a copy of these files in the sites-enabled directory, using what is called a symbolic link. You can use a funky little program called a2ensite to do this. So, enter the following:
+
+sudo a2ensite www.example.com
+sudo a2ensite www.example.net
+And finally (I was lying last time), you need to restart Apache for this to all take effect:
+
+sudo /etc/init.d/apache2 reload
+And tada, it should all be working, yay!
+
+###############################
+
+First, you need to install the relevant software. You need to have a wired connection at this point, otherwise this wont work.
+
+sudo apt-get install wireless-tools wpasupplicant
+
+If you are connecting to an open network, you wont need wpasupplicant. Next, you need to “bring up” (essentially this means activate) your WiFi interface. So, issue:
+
+sudo ifconfig wlan0 up
+
+Next, to make sure your wireless device is working as it should issue:
+
+iwconfig
+and then
+sudo iwlist scan
+
+This should show you some wireless networks as proof that the WiFi device is working, if something goes wrong here, then there is a problem with your device or driver and you need to get googling.
+
+If you are accessing a secured network and you really should be, you need to access the correct version of your WiFi key. To get your key, issue this command:
+
+wpa_passphrase YOURSSID YOURWIFIPASSWORD
+
+This will result in something that looks like this:
+
+network={
+ssid="YOURSSID"
+#psk="YOURWIFIPASSWORD"
+psk=fe727aa8b64ac9b3f54c72432da14faed933ea511ecab1 5bbc6c52e7522f709a
+}
+
+You need to make a note of the long phrase after psk= (NOT #psk=) as this your WiFi password in hex format.
+
+Next, you need to edit your interfaces file, so issue:
+
+sudo nano /etc/network/interfaces
+
+At the end of this file, you need to add your WiFi configuration. Here are the options you can add.
+
+auto wlan0     #change this to the name of your WiFi interface
+iface wlan0 inet dhcp     #this is normally fine, if you want a static IP address replace “dhcp” with “static”
+netmask 255.255.255.0     #change this as appropriate for your network, this value is usually right
+gateway 192.168.1.1     #change this as appropriate for your network
+address 192.168.1.100     #only needed for a static IP address
+dns-nameservers 192.168.1.1     #only needed for a static IP address
+wpa-driver wext     #you shouldn’t need to change this
+wpa-ssid YOURSSID     #just type the name of your SSID here
+wpa-ap-scan 1     #if the name of your SSID is hidden usually, type 2 instead of 1
+wpa-proto WPA    #if you use WPA1 type WPA, if you use WPA2 type RSN
+wpa-pairwise CCMP     #if you use AES type CCMP, if you use TKIP type TKIP
+wpa-group CCMP     #if you use AES type CCMP, if you use TKIP type TKIP
+wpa-key-mgmt WPA-PSK     #usually WPA-PSK (if you share a key) but sometimes WPA-EAP (for enterprises)
+wpa-psk YOURHEXKEYFROMABOVE     #the hex key that you generated earlier
+
+Thus, since I am using a WiFi card that is identified as wlan0 and am connecting to a WPA1 AES encrypted network called MYPLACE that isn’t hidden without a static IP address, this is what I added:
+
+
+auto wlan0
+iface wlan0 inet dhcp
+netmask 255.255.255.0
+gateway 192.168.1.1
+wpa-driver wext
+wpa-ssid MYPLACE
+wpa-ap-scan 1
+wpa-proto WPA
+wpa-pairwise CCMP
+wpa-group CCMP
+wpa-key-mgmt WPA-PSK
+wpa-psk 71c81a844973ae7bb1243141e5caa7b6bb0e2d7eetcetcetc
+
+Finally, comment out the top section so it looks like this:
+
+#auto eth0
+#iface eth0 inet dhcp
+
+This stops your wired network from working. This helps to ensure there are no conflicts. Remember, if you want your wired network to work again, remove these two comments (the #).
+
+Finally, save the file by pressing CTRL and X and then pressing Y to save to the file. Now, reboot and your network should come up. Yay!
+
+Some people have found that this doesn’t always work, so the next thing to do is to edit the configuration file for the wpasupplicant program. Do this by issuing:
+
+sudo nano /etc/wpa_supplicant.conf
+
+Basically, you add pretty much the same information here as you did to the interfaces file, except without the wpa- part. So, my file looks like this:
+
+
+ap_scan=1
+ctrl_interface=/var/run/wpa_supplicant
+network={
+ssid="MYPLACE"
+scan_ssid=0
+psk=71c81a844973ae7bb1243141e5caa7b6bb0e2d7eetcetcetc
+key_mgmt=WPA-PSK
+proto=WPA
+pairwise=CCMP
+group=CCMP
+}
+
+As far as I am aware, the options are the same. So, edit this file as necessary, make sure you add the ctrl_interface and network={ at the beginning and the } part at the end. Save it and try restarting again. If it still doesn’t work, then kick your PC, wish you had installed Windows 7 instead and go off and do some Googling. You’ll find the answer on the Ubuntu forums and you’ll be happy again.
+
+Best of luck!
+

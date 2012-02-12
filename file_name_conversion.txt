@@ -1,0 +1,28 @@
+For Bash Scripting
+
+(taken from linuxgazette)
+
+Given:
+foo=/tmp/my.dir/filename.tar.gz
+We can use these expressions:
+path = ${foo%/*}
+To get: /tmp/my.dir (like dirname)
+file = ${foo##*/}
+To get: filename.tar.gz (like basename)
+base = ${file%%.*}
+To get: filename
+ext = ${file#*.}
+To get: tar.gz
+For Windows Batch Scripting
+
+(taken from imagemagick)
+
+%~1	expands %1 removing any surrounding quotes (“)
+%~f1	expands %1 to a fully qualified path name
+%~d1	expands %1 to a drive letter only
+%~p1	expands %1 to a path only
+%~n1	expands %1 to a file name only
+%~x1	expands %1 to a file extension only
+These two pieces of info can thus be used to pass any variable or variation of that variable to a command in your script.
+
+Using these tools I have been able to get MediaPortal to automatically scan each new recording for adverts using comskip and then transfer the recording, alongside the necessary advert info files to my network hard drive on my server using a batch script. Then the server runs a bash script each morning to scan for new files on the new recordings file, convert them to MKV using Handbrake and add chapter markers and then move the MKV files to my networked videos file. Cool!
