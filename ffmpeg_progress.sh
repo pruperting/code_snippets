@@ -12,7 +12,7 @@
 # USAGE #
 # 1) Run the script with the name of the file to be converted after the name of the script (e.g. ./ffmpeg-progress.sh "My Awesome Video.mpg)
 ###################################################################################
-# Please adjust the following variables as needed. 
+# Please adjust the following variables as needed.
 # It is recommended you at least adjust the first variable, the name of the script
 SCRIPT=ffmpeg-progress.sh
 LOG=$HOME/ffmpegprog.log
