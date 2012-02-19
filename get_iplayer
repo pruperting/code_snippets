@@ -1,0 +1,45 @@
+#! /bin/sh
+
+# Author: prupert
+# Basis: Parts of the script based on and inspired by work from
+#		daemox (ainer.org) tret (sabnzbd.org), beckstown (xbmc.org),
+#		and midgetspy (sickbeard.com).
+# Fixes: Alek (ainer.org), James (ainer.org), Tophicles (ainer.org),
+#		croontje (sickbeard.com)
+# Contact: http://www.prupert.co.uk
+# Version: 0.1
+
+### BEGIN INIT INFO
+# Provides:          get_iplayer
+# Required-Start:    $all
+# Required-Stop:     $all
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: starts and stops get_iplayer web pvr
+# Description:       get_iplayer web pvr:
+### END INIT INFO
+ 
+#Required -- Must Be Changed!
+USER="rupert" #Set Linux Mint, Ubuntu, or Debian user name here.
+GETIPLAYER="/home/rupert/src/get_iplayer"
+
+#Script -- No changes needed below.
+case "$1" in
+start)
+#Start get_iplayer web pvr and send all messages to /dev/null.
+echo "Starting get_iplayer"
+sudo -u $USER -EH nohup perl $GETIPLAYER/get_iplayer.cgi -p 8082 -l 0.0.0.0 -g $GETIPLAYER/get_iplayer > /dev/null 2>&1 &
+;;
+stop)
+#Shutdown get_iplayer
+echo "Stopping get_iplayer"
+sudo killall get_iplayer.cgi
+sleep 6s
+;;
+*)
+echo "Usage: $0 {start|stop}"
+exit 1
+esac
+ 
+exit 0
+
