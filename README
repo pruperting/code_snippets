@@ -35,3 +35,7 @@ m2ts_trans.sh - transcode m2ts files produced by Sony's Playstation 3 PlayTV pro
 file_name_conversion.txt - move between various file names in batch and bash scripts
 
 ubuntu_tricks.txt - various ubuntu tips
+
+em.sh - script to download various iplayer programmes
+
+beet.sh - using beet to update files and playlist and prep them for use on my phone
