@@ -39,3 +39,9 @@ ubuntu_tricks.txt - various ubuntu tips
 em.sh - script to download various iplayer programmes
 
 beet.sh - using beet to update files and playlist and prep them for use on my phone
+
+beets-config.yaml - my personal beets config
+
+flexget-config.yml - my pesonal flexget config - notably tries to pull metadata info where not in the file
+
+parpegall.sh - simple baash script that converts downloaded podcasts and mixes into ogg files and attempts to add metedata extracted from variou sources via flexget
