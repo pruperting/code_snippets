@@ -1,0 +1,124 @@
+tasks:
+  Electronic Explorations:
+    rss:
+      url: http://electronicexplorations.org/?feed=podcast
+      all_entries: yes
+    accept_all: yes
+    seen:
+      local: yes
+      fields:
+        - url
+        - title
+        - original_url
+    limit_new: 5
+    download: /mnt/omv/music/Mixes/ElectronicExplorations/
+
+  Resident Advisor:
+    rss:
+      url: https://ra.co/xml/podcast.xml
+      all_entries: yes
+    accept_all: yes
+    seen:
+      local: yes
+      fields:
+        - url
+        - title
+        - original_url
+    limit_new: 5
+    download: /mnt/omv/music/Mixes/ResidentAdvisor/
+    exec:
+      on_output:
+        for_accepted:
+          - echo "filename@ " {{filename}} > {{location}}.txt
+          - echo "title@ " {{title}} >> {{location}}.txt
+          - echo "description@ " "{{description}}" >> {{location}}.txt
+
+  Electronic Groove:
+    rss:
+      url: http://www.electronicgroove.com/Podcast/podcast.rss
+      all_entries: yes
+    accept_all: yes
+    #seen:
+    #  local: yes
+    #  fields:
+    #    - url
+    #    - title
+    #    - original_url
+    limit_new: 5
+    download: /mnt/omv/music/Mixes/ElectronicGroove/
+    exec:
+      on_output:
+        for_accepted: 
+          - echo "filename@ " {{filename}} > {{location}}.txt
+          - echo "title@ " {{title}} >> {{location}}.txt
+          - echo "description@ " "{{description}}" >> {{location}}.txt
+
+  Coldwired:
+    rss:
+      url: http://www.coldwiredmusic.com/coldwiredmusic/podcast.xml
+      all_entries: yes
+    accept_all: yes
+    exists: /mnt/omv/music/Mixes/Coldwired/
+    limit_new: 5
+    download: /mnt/omv/music/Mixes/Coldwired/
+    exec:
+      on_output:
+        for_accepted:
+          - echo "filename@ " {{filename}} > {{location}}.txt
+          - echo "title@ " {{title}} >> {{location}}.txt
+          - echo "description@ " "{{description}}" >> {{location}}.txt
+
+  Mind Over Matter:
+    rss:
+      url: https://www.emblissmusic.com/feed/podcast/mindovermatter.rss
+      all_entries: yes
+    accept_all: yes
+    seen:
+      local: yes
+      fields:
+        - url
+        - title
+        - original_url
+    limit_new: 5
+    download: /mnt/omv/music/Mixes/MindOverMatter/
+
+  Transitions:
+    rss:
+      url: http://transitionspod.mixriot.com/
+      all_entries: no
+    seen:
+      local: yes
+      fields:
+        - url
+        - title
+        - original_url
+    limit_new: 5
+    download: /mnt/omv/music/Mixes/Transitions/
+    exec:
+      on_output:
+        for_accepted:
+          - echo "filename@ " {{filename}} > {{location}}.txt
+          - echo "title@ " {{title}} >> {{location}}.txt
+          - echo "description@ " "{{description}}" >> {{location}}.txt
+
+  LNOE:
+    rss:
+      url: https://portal-api.thisisdistorted.com/xml/sasha-presents-last-night-on-earth
+      all_entries: yes
+    accept_all: yes
+    seen:
+      local: yes
+      fields:
+        - url
+        - title
+        - original_url
+    limit_new: 5
+    download: /mnt/omv/music/Mixes/LNOE/
+    exec:
+      on_output:
+        for_accepted:
+          - echo "filename@ " {{filename}} > {{location}}.txt
+          - echo "title@ " {{title}} >> {{location}}.txt
+          - echo "description@ " "{{description}}" >> {{location}}.txt
+
+
